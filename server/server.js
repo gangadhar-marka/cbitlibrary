@@ -1,12 +1,20 @@
-const express=require('express')
-const cors=require('cors')
-const app=express()
-const dbserver=require('./dbserver')
-app.use(cors())
-app.use(express.json())
-const port=8000
-const userroute=require('./routes/Userroute')
-app.use('/api/user/',userroute)
-app.get('/',(req,res)=>res.send("working"))
-app.listen(port,()=>console.log("working"))
-//GwuhDGnFqJT5Uzid
+const express = require("express");
+const cors = require("cors");
+const connectDB = require("./config/dbConfig");
+const authRoutes = require("./api/routes/authRoutes");
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(express.json());
+app.use(cors());
+
+// Connect to MongoDB
+connectDB();
+
+// Set up routes
+app.use("/api/auth", authRoutes);
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
